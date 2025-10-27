@@ -1,0 +1,19 @@
+# build
+build/
+*.apk
+*.aab
+
+# local
+local.properties
+
+# IDE files
+.idea/
+*.iml
+
+# gradle
+.gradle/
+gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Other
+.DS_Store
