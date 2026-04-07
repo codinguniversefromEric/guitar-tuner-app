@@ -2,10 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 請求麥克風權限 -->
+    <!-- 麥克風權限（調音器核心功能） -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!-- 請求網路權限 (Gemini API) -->
-    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+        體驗修正 #4：移除 INTERNET 權限
+        Gemini API 功能目前全部被 comment 掉，保留此權限會在 Google Play
+        資料安全性問卷中引發「是否傳輸個人資料」的審查問題，且無法如實回答。
+        待 Gemini 功能正式啟用時再補回此行。
+    -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
 
     <application
         android:allowBackup="true"
@@ -21,10 +27,17 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Guitartuner">
+            android:theme="@style/Theme.Guitartuner"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+            <!--
+                體驗修正 #5：加上 configChanges
+                宣告 Activity 自行處理 orientation / screenSize 變更，
+                搭配 Compose 的 LocalConfiguration 偵測，實現 portrait/landscape 雙欄切換，
+                同時避免旋轉螢幕觸發 Activity 重建（雖然 ViewModel 會保留狀態，
+                但避免重建可減少 UI 閃爍）。
+            -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
